@@ -5,11 +5,13 @@ import urllib
 
 
 
-def function  ShowNames(names) :
-    for name in names
-        print name
 
-    return names
+def ShowNames(names):
+    "Newline seperated names will return their allegiances"
+    for name in names:
+        print (name)
+
+    return
 
 
 

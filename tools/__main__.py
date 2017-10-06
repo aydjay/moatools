@@ -1,4 +1,5 @@
 import sys
+import .bin
 
 def main(args=None):
     """The main routine."""
@@ -11,3 +12,4 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
+    ShowNames()

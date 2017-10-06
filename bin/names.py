@@ -1,9 +1,6 @@
 import urllib.request
 import string
-
-
-
-
+import bin.xmlutil
 
 def ShowNames(names):
     "Newline seperated names will return their allegiances"
@@ -24,8 +21,9 @@ def ShowNames(names):
     
     characterIdUrl += namesForUrl
 
-    print(urllib.request.urlopen(characterIdUrl).read())
+    characterIdXml = GetResponseFromUrl(characterIdUrl)
+    print(characterIdXml)
     return
 
-
-
+def GetResponseFromUrl(characterIdUrl):
+    return urllib.request.urlopen(characterIdUrl).read()

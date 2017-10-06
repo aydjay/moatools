@@ -1,6 +1,5 @@
-import urllib
+import urllib.request
 import string
-
 
 
 
@@ -8,17 +7,24 @@ import string
 
 def ShowNames(names):
     "Newline seperated names will return their allegiances"
+    characterIdUrl = "https://api.eveonline.com/eve/CharacterID.xml.aspx?names="
+    characterAffiliationUrl = "https://api.eveonline.com/eve/CharacterAffiliation.xml.aspx?ids="
     seperated = names.splitlines()
+    namesForUrl = ""
 
     for name in seperated:
         if " " in name:
             name = name.replace(" ", "%20")
         
-        print(name)
+        namesForUrl += name + ","
 
+    namesForUrl = namesForUrl.strip(',')
 
-
+    print(namesForUrl)
     
+    characterIdUrl += namesForUrl
+
+    print(urllib.request.urlopen(characterIdUrl).read())
     return
 
 

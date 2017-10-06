@@ -1,5 +1,5 @@
 import urllib
-
+import string
 
 
 
@@ -8,9 +8,17 @@ import urllib
 
 def ShowNames(names):
     "Newline seperated names will return their allegiances"
-    for name in names:
-        print (name)
+    seperated = names.splitlines()
 
+    for name in seperated:
+        if " " in name:
+            name = name.replace(" ", "%20")
+        
+        print(name)
+
+
+
+    
     return
 
 

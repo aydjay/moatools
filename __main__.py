@@ -13,4 +13,4 @@ def main(args=None):
 
 
 if __name__ == "__main__":
-    bin.names.ShowNames("Alex Jones")
+    bin.names.ShowNames("Efraya\r\nGen Eve")

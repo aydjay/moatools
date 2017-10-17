@@ -15,43 +15,43 @@ def main(args=None):
 
 
 if __name__ == "__main__":
-    bin.names.ShowNames("Efraya\r\nGen Eve")
-#     bin.names.GetNamesFromZkillLinks('''
-#     Sabres 
+    #bin.names.ShowNames("Efraya\r\nGen Eve")
+    bin.names.GetNamesFromZkillLinks('''
+    Sabres 
 
-# https://zkillboard.com/kill/65349222/
+https://zkillboard.com/kill/65349222/
 
-# Scythe
-# https://zkillboard.com/kill/65349342/
-# https://zkillboard.com/kill/65351381/
-
-
-# Machariels
-# https://zkillboard.com/kill/65349780/
-# https://zkillboard.com/kill/65349779/
-# https://zkillboard.com/kill/65349702/
-# https://zkillboard.com/kill/65349701/
-# https://zkillboard.com/kill/65349644/
-# https://zkillboard.com/kill/65349638/
-# https://zkillboard.com/kill/65349631/
-# https://zkillboard.com/kill/65349614/
-# https://zkillboard.com/kill/65349613/
-# https://zkillboard.com/kill/65349601/
-# https://zkillboard.com/kill/65349588/
-# https://zkillboard.com/kill/65349586/
-# https://zkillboard.com/kill/65349570/
-# https://zkillboard.com/kill/65349535/
-# https://zkillboard.com/kill/65349514/
-# https://zkillboard.com/kill/65349512/
-# https://zkillboard.com/kill/65351019/
-# https://zkillboard.com/kill/65352360/
-# https://zkillboard.com/kill/65353579/
-# https://zkillboard.com/kill/65353557/
-# https://zkillboard.com/kill/65353701/
+Scythe
+https://zkillboard.com/kill/65349342/
+https://zkillboard.com/kill/65351381/
 
 
-# loki 
-# https://zkillboard.com/kill/65349619/
-# https://zkillboard.com/kill/65349538/
-# https://zkillboard.com/kill/65352165/
-# ''')
+Machariels
+https://zkillboard.com/kill/65349780/
+https://zkillboard.com/kill/65349779/
+https://zkillboard.com/kill/65349702/
+https://zkillboard.com/kill/65349701/
+https://zkillboard.com/kill/65349644/
+https://zkillboard.com/kill/65349638/
+https://zkillboard.com/kill/65349631/
+https://zkillboard.com/kill/65349614/
+https://zkillboard.com/kill/65349613/
+https://zkillboard.com/kill/65349601/
+https://zkillboard.com/kill/65349588/
+https://zkillboard.com/kill/65349586/
+https://zkillboard.com/kill/65349570/
+https://zkillboard.com/kill/65349535/
+https://zkillboard.com/kill/65349514/
+https://zkillboard.com/kill/65349512/
+https://zkillboard.com/kill/65351019/
+https://zkillboard.com/kill/65352360/
+https://zkillboard.com/kill/65353579/
+https://zkillboard.com/kill/65353557/
+https://zkillboard.com/kill/65353701/
+
+
+loki 
+https://zkillboard.com/kill/65349619/
+https://zkillboard.com/kill/65349538/
+https://zkillboard.com/kill/65352165/
+''')

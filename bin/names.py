@@ -3,16 +3,27 @@ import string
 from lxml import etree
 from io import StringIO, BytesIO
 
-def ParseHtmlWithXPath(htmlPagem,xpath):
-    print("Called Successfully")
-    return
-
 def GetNamesFromZkillLinks(mail):
     "If someone mails you a load of zKill links, get the names of the victims for SRP purposes"
     for link in mail.splitlines():
         if "zkillboard.com/kill" not in link:
             continue
-        print(GetResponseFromUrl(link))
+        html = GetResponseFromUrl(link)
+        print(html)
+        parser = etree.HTMLParser()
+        tree   = etree.fromstring(html, parser)
+        
+
+        exit()
+        #print(result)
+        # result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
+        # print(result)
+
+        # f = StringIO(html)
+        # tree = etree.parse(f)
+
+        # #characterName = tree.xpath('/html/body/div[2]/div[2]/span/div[2]/table/tbody/tr[1]/td[2]/div/table[1]/tbody/tr/td[3]/a[1]')
+
 
 
 def ShowNames(names):
@@ -39,10 +50,10 @@ def ShowNames(names):
     return
 
 def GetResponseFromUrl(link):
-    user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+    user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2010021910 Firefox/3.0.7'
     headers={'User-Agent':user_agent,} 
 
     request=urllib.request.Request(link,None,headers) #The assembled request
     response = urllib.request.urlopen(request)
     data = response.read() # The data u need
-    return data
+    return data.decode("utf-8")

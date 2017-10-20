@@ -2,28 +2,30 @@ import urllib.request
 import string
 from lxml import etree
 from io import StringIO, BytesIO
+import re
+import json
+
 
 def GetNamesFromZkillLinks(mail):
     "If someone mails you a load of zKill links, get the names of the victims for SRP purposes"
     for link in mail.splitlines():
         if "zkillboard.com/kill" not in link:
             continue
-        html = GetResponseFromUrl(link)
-        print(html)
-        parser = etree.HTMLParser()
-        tree   = etree.fromstring(html, parser)
+
+        print(link)
+    
+        killId = re.findall(r'\d+', link)
+
+        print(killId)
+        newUrl = "https://zkillboard.com/api/killID/{}/no-attackers/no-items/".format(killId[0])
         
+        killData = GetResponseFromUrl(newUrl)
+        data =  json.loads(killData)
+        print(data[0]['victim']['character_id'])
+        print(data[0]['victim']['ship_type_id'])
+        print(data[0]['victim']['alliance_id'])
 
-        exit()
-        #print(result)
-        # result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
-        # print(result)
-
-        # f = StringIO(html)
-        # tree = etree.parse(f)
-
-        # #characterName = tree.xpath('/html/body/div[2]/div[2]/span/div[2]/table/tbody/tr[1]/td[2]/div/table[1]/tbody/tr/td[3]/a[1]')
-
+    
 
 
 def ShowNames(names):

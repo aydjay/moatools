@@ -4,6 +4,32 @@ from io import StringIO, BytesIO
 import re
 import json
 
+#todo: Caching for corporation and alliance ESI Calls
+
+
+def GetCharacterAllegianceFromEsi(characterId):
+    response = GetResponseFromUrl("https://esi.tech.ccp.is/latest/characters/{}/?datasource=tranquility".format(characterId))
+    data = json.loads(response)
+    characterName = data['name']
+    corpId = data['corporation_id']
+
+    response = GetResponseFromUrl("https://esi.tech.ccp.is/latest/corporations/{}/?datasource=tranquility".format(corpId))
+    data = json.loads(response)
+    corpName = data['corporation_name']
+    corpTicker = data['ticker']
+    allianceId = data['alliance_id']
+
+    response = GetResponseFromUrl("https://esi.tech.ccp.is/latest/alliances/{}/?datasource=tranquility".format(allianceId))
+    data = json.loads(response)
+    allianceName = data['alliance_name']
+
+    return "{0} [{1}] {2}".format(characterName, corpTicker, allianceName)
+
+def GetPrettyPrintTypeId(typeId):
+    response = GetResponseFromUrl("https://esi.tech.ccp.is/latest/universe/types/{}/?datasource=tranquility&language=en-us".format(typeId))
+    data = json.loads(response)
+
+    return "{}".format(data['name'])
 
 def GetNamesFromZkillLinks(mail):
     "If someone mails you a load of zKill links, get the names of the victims for SRP purposes"
@@ -11,18 +37,18 @@ def GetNamesFromZkillLinks(mail):
         if "zkillboard.com/kill" not in link:
             continue
 
-        print(link)
-
         killId = re.findall(r'\d+', link)
 
-        print(killId)
         newUrl = "https://zkillboard.com/api/killID/{}/no-attackers/no-items/".format(killId[0])
 
         killData = GetResponseFromUrl(newUrl)
         data =  json.loads(killData)
-        print(data[0]['victim']['character_id'])
-        print(data[0]['victim']['ship_type_id'])
-        print(data[0]['victim']['alliance_id'])
+
+        characterId = data[0]['victim']['character_id']
+        typeId = data[0]['victim']['ship_type_id']
+
+
+        print(GetCharacterAllegianceFromEsi(characterId) + " " + GetPrettyPrintTypeId(typeId))
 
 
 

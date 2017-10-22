@@ -1,6 +1,5 @@
 import urllib.request
 import string
-from lxml import etree
 from io import StringIO, BytesIO
 import re
 import json
@@ -13,19 +12,19 @@ def GetNamesFromZkillLinks(mail):
             continue
 
         print(link)
-    
+
         killId = re.findall(r'\d+', link)
 
         print(killId)
         newUrl = "https://zkillboard.com/api/killID/{}/no-attackers/no-items/".format(killId[0])
-        
+
         killData = GetResponseFromUrl(newUrl)
         data =  json.loads(killData)
         print(data[0]['victim']['character_id'])
         print(data[0]['victim']['ship_type_id'])
         print(data[0]['victim']['alliance_id'])
 
-    
+
 
 
 def ShowNames(names):
@@ -38,13 +37,13 @@ def ShowNames(names):
     for name in seperated:
         if " " in name:
             name = name.replace(" ", "%20")
-        
+
         namesForUrl += name + ","
 
     namesForUrl = namesForUrl.strip(',')
 
     print(namesForUrl)
-    
+
     characterIdUrl += namesForUrl
 
     characterIdXml = GetResponseFromUrl(characterIdUrl)
@@ -53,7 +52,7 @@ def ShowNames(names):
 
 def GetResponseFromUrl(link):
     user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2010021910 Firefox/3.0.7'
-    headers={'User-Agent':user_agent,} 
+    headers={'User-Agent':user_agent,}
 
     request=urllib.request.Request(link,None,headers) #The assembled request
     response = urllib.request.urlopen(request)

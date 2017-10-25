@@ -8,13 +8,12 @@ def main(args=None):
         args = sys.argv[1:]
         # How the fuck do I call the function in the names class?
 
-
     # Do argument parsing here (eg. with argparse) and anything else
     # you want your project to do.
 
 
 if __name__ == "__main__":
-    #bin.names.ShowNames("Efraya\r\nGen Eve")
+    # bin.names.ShowNames("Efraya\r\nGen Eve")
     mail = '''https://zkillboard.com/kill/65514053/
 https://zkillboard.com/kill/65516727/
 https://zkillboard.com/kill/65519032/
@@ -45,5 +44,5 @@ https://zkillboard.com/kill/65519001/
 https://zkillboard.com/kill/65518205/
 https://zkillboard.com/kill/65517380/
 '''
-    tool = Tools();
+    tool = Tools()
     tool.GetNamesFromZkillLinks(mail)

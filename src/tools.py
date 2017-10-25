@@ -1,50 +1,61 @@
 import urllib.request
-import string
-from io import StringIO, BytesIO
 import re
 import json
 
 # todo: Caching for corporation and alliance ESI Calls
 
+
 class Tools():
 
     i = 0
-    characterIdUrl = "https://esi.tech.ccp.is/latest/characters/{}/?datasource=tranquility"
 
-    """Provides methods solve small units of work"""
+    characterIdCache = {}
+    allianceIdCache = {}
+    corpIdCache = {}
+    typeIdCache = {}
+
+    """Provides methods to solve small units of work"""
+
     def __init__(self):
         super(Tools).__init__()
 
-
-
     def GetCharacterAllegianceFromEsi(self, characterId):
-        response = self.GetResponseFromUrl(self.characterIdUrl.format(characterId))
+
+        characterInfoUrl = "https://esi.tech.ccp.is/latest/characters/{}/?datasource=tranquility"
+        corporationInfoUrl = "https://esi.tech.ccp.is/latest/corporations/{}/?datasource=tranquility"
+        allianceInfoUrl = "https://esi.tech.ccp.is/latest/alliances/{}/?datasource=tranquility"
+
+        response = self.GetResponseFromUrl(characterInfoUrl.format(characterId))
         data = json.loads(response)
         characterName = data['name']
         corpId = data['corporation_id']
 
-        response = self.GetResponseFromUrl(
-            "https://esi.tech.ccp.is/latest/corporations/{}/?datasource=tranquility".format(corpId))
-        data = json.loads(response)
-        corpName = data['corporation_name']
-        corpTicker = data['ticker']
-        allianceId = data['alliance_id']
+        if corpId not in self.corpIdCache:
+            response = self.GetResponseFromUrl(corporationInfoUrl.format(corpId))
+            data = json.loads(response)
+            self.corpIdCache[corpId] = [data['ticker'], data['alliance_id']]
 
-        response = self.GetResponseFromUrl(
-            "https://esi.tech.ccp.is/latest/alliances/{}/?datasource=tranquility".format(allianceId))
-        data = json.loads(response)
-        allianceName = data['alliance_name']
+        corpTicker = self.corpIdCache[corpId][0]
+        allianceId = self.corpIdCache[corpId][1]
+
+        if allianceId not in self.allianceIdCache:
+            response = self.GetResponseFromUrl(allianceInfoUrl.format(allianceId))
+            data = json.loads(response)
+            self.allianceIdCache[allianceId] = data['alliance_name']
+
+        allianceName = self.allianceIdCache[allianceId]
 
         return "{0} [{1}] {2}".format(characterName, corpTicker, allianceName)
 
+    def GetPrettyPrintTypeId(self, typeId):
+        "Get human readable translation of a typeId"
+        if typeId not in self.typeIdCache:
+            response = self.GetResponseFromUrl("https://esi.tech.ccp.is/latest/universe/types/{}/?datasource=tranquility&language=en-us".format(typeId))
+            data = json.loads(response)
+            self.typeIdCache[typeId] = data['name']
 
-    def GetPrettyPrintTypeId(self,typeId):
-        response = self.GetResponseFromUrl(
-            "https://esi.tech.ccp.is/latest/universe/types/{}/?datasource=tranquility&language=en-us".format(typeId))
-        data = json.loads(response)
-
-        return "{}".format(data['name'])
-
+        name = self.typeIdCache[typeId]
+        return "{}".format(name)
 
     def GetNamesFromZkillLinks(self, mail):
         "If someone mails you a load of zKill links, get the names of the victims for SRP purposes"
@@ -68,10 +79,19 @@ class Tools():
 
         print(self.i)
 
+    def GetResponseFromUrl(self, link):
+        self.i = self.i + 1
+        user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2010021910 Firefox/3.0.7'
+        headers = {'User-Agent': user_agent, }
+
+        request = urllib.request.Request(link, None, headers)
+        response = urllib.request.urlopen(request)
+        data = response.read()
+        return data.decode("utf-8")
+
     def ShowNames(self, names):
         "Newline seperated names will return their allegiances"
-        characterIdUrl = "https://api.eveonline.com/eve/CharacterID.xml.aspx?names="
-        characterAffiliationUrl = "https://api.eveonline.com/eve/CharacterAffiliation.xml.aspx?ids="
+        characterInFourl = "https://api.eveonline.com/eve/CharacterID.xml.aspx?names="
         seperated = names.splitlines()
         namesForUrl = ""
 
@@ -85,20 +105,8 @@ class Tools():
 
         print(namesForUrl)
 
-        characterIdUrl += namesForUrl
+        characterInFourl += namesForUrl
 
-        characterIdXml = GetResponseFromUrl(characterIdUrl)
+        characterIdXml = self.GetResponseFromUrl(characterInFourl)
         print(characterIdXml)
         return
-
-
-    def GetResponseFromUrl(self, link):
-        self.i = self.i+1
-        user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2010021910 Firefox/3.0.7'
-        headers = {'User-Agent': user_agent, }
-
-        request = urllib.request.Request(
-            link, None, headers)  # The assembled request
-        response = urllib.request.urlopen(request)
-        data = response.read()  # The data u need
-        return data.decode("utf-8")

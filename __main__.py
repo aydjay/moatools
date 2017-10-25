@@ -1,7 +1,6 @@
 import sys
-import bin.names
-import bin.xmlutil
-import textwrap
+from src.tools import Tools
+
 
 def main(args=None):
     """The main routine."""
@@ -16,42 +15,35 @@ def main(args=None):
 
 if __name__ == "__main__":
     #bin.names.ShowNames("Efraya\r\nGen Eve")
-    bin.names.GetNamesFromZkillLinks('''
-    Sabres 
-
-https://zkillboard.com/kill/65349222/
-
-Scythe
-https://zkillboard.com/kill/65349342/
-https://zkillboard.com/kill/65351381/
-
-
-Machariels
-https://zkillboard.com/kill/65349780/
-https://zkillboard.com/kill/65349779/
-https://zkillboard.com/kill/65349702/
-https://zkillboard.com/kill/65349701/
-https://zkillboard.com/kill/65349644/
-https://zkillboard.com/kill/65349638/
-https://zkillboard.com/kill/65349631/
-https://zkillboard.com/kill/65349614/
-https://zkillboard.com/kill/65349613/
-https://zkillboard.com/kill/65349601/
-https://zkillboard.com/kill/65349588/
-https://zkillboard.com/kill/65349586/
-https://zkillboard.com/kill/65349570/
-https://zkillboard.com/kill/65349535/
-https://zkillboard.com/kill/65349514/
-https://zkillboard.com/kill/65349512/
-https://zkillboard.com/kill/65351019/
-https://zkillboard.com/kill/65352360/
-https://zkillboard.com/kill/65353579/
-https://zkillboard.com/kill/65353557/
-https://zkillboard.com/kill/65353701/
-
-
-loki 
-https://zkillboard.com/kill/65349619/
-https://zkillboard.com/kill/65349538/
-https://zkillboard.com/kill/65352165/
-''')
+    mail = '''https://zkillboard.com/kill/65514053/
+https://zkillboard.com/kill/65516727/
+https://zkillboard.com/kill/65519032/
+https://zkillboard.com/kill/65514648/
+https://zkillboard.com/kill/65519651/
+https://zkillboard.com/kill/65520490/
+https://zkillboard.com/kill/65520480/
+https://zkillboard.com/kill/65520723/
+https://zkillboard.com/kill/65520543/
+https://zkillboard.com/kill/65519788/
+https://zkillboard.com/kill/65520208/
+https://zkillboard.com/kill/65519332/
+https://zkillboard.com/kill/65520380/
+https://zkillboard.com/kill/65519948/
+https://zkillboard.com/kill/65520597/
+https://zkillboard.com/kill/65520548/
+https://zkillboard.com/kill/65520693/
+https://zkillboard.com/kill/65520693/
+https://zkillboard.com/kill/65519271/
+https://zkillboard.com/kill/65519474/
+https://zkillboard.com/kill/65521141/
+https://zkillboard.com/kill/65519115/
+https://zkillboard.com/kill/65519114/
+https://zkillboard.com/kill/65519113/
+https://zkillboard.com/kill/65516621/
+https://zkillboard.com/kill/65517782/
+https://zkillboard.com/kill/65519001/
+https://zkillboard.com/kill/65518205/
+https://zkillboard.com/kill/65517380/
+'''
+    tool = Tools();
+    tool.GetNamesFromZkillLinks(mail)

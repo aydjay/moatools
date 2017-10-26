@@ -1,7 +1,7 @@
 import urllib.request
 import re
 import json
-
+import xml.etree.ElementTree as ET
 # todo: Caching for corporation and alliance ESI Calls
 
 
@@ -20,26 +20,34 @@ class Tools():
         super(Tools).__init__()
 
     def GetCharacterAllegianceFromEsi(self, characterId):
-
+        self.allianceIdCache[0] = "No alliance"
         characterInfoUrl = "https://esi.tech.ccp.is/latest/characters/{}/?datasource=tranquility"
         corporationInfoUrl = "https://esi.tech.ccp.is/latest/corporations/{}/?datasource=tranquility"
         allianceInfoUrl = "https://esi.tech.ccp.is/latest/alliances/{}/?datasource=tranquility"
 
-        response = self.GetResponseFromUrl(characterInfoUrl.format(characterId))
+        response = self.GetResponseFromUrl(
+            characterInfoUrl.format(characterId))
         data = json.loads(response)
         characterName = data['name']
         corpId = data['corporation_id']
 
         if corpId not in self.corpIdCache:
-            response = self.GetResponseFromUrl(corporationInfoUrl.format(corpId))
+            response = self.GetResponseFromUrl(
+                corporationInfoUrl.format(corpId))
             data = json.loads(response)
-            self.corpIdCache[corpId] = [data['ticker'], data['alliance_id']]
+
+            if "alliance_id" in data:
+                self.corpIdCache[corpId] = [
+                    data['ticker'], data['alliance_id']]
+            else:
+                self.corpIdCache[corpId] = [data['ticker'], 0]
 
         corpTicker = self.corpIdCache[corpId][0]
         allianceId = self.corpIdCache[corpId][1]
 
         if allianceId not in self.allianceIdCache:
-            response = self.GetResponseFromUrl(allianceInfoUrl.format(allianceId))
+            response = self.GetResponseFromUrl(
+                allianceInfoUrl.format(allianceId))
             data = json.loads(response)
             self.allianceIdCache[allianceId] = data['alliance_name']
 
@@ -50,7 +58,8 @@ class Tools():
     def GetPrettyPrintTypeId(self, typeId):
         "Get human readable translation of a typeId"
         if typeId not in self.typeIdCache:
-            response = self.GetResponseFromUrl("https://esi.tech.ccp.is/latest/universe/types/{}/?datasource=tranquility&language=en-us".format(typeId))
+            response = self.GetResponseFromUrl(
+                "https://esi.tech.ccp.is/latest/universe/types/{}/?datasource=tranquility&language=en-us".format(typeId))
             data = json.loads(response)
             self.typeIdCache[typeId] = data['name']
 
@@ -91,22 +100,39 @@ class Tools():
 
     def ShowNames(self, names):
         "Newline seperated names will return their allegiances"
-        characterInFourl = "https://api.eveonline.com/eve/CharacterID.xml.aspx?names="
-        seperated = names.splitlines()
+        # Please be aware - XML api will be deprecated.
+        characterNameToIdUrl = 'https://api.eveonline.com/eve/CharacterID.xml.aspx?names='
+
+        # seperated = names.splitlines()
         namesForUrl = ""
+        preparedNames = []
 
-        for name in seperated:
+        for name in names:
             if " " in name:
-                name = name.replace(" ", "%20")
+                preparedNames.append(name.replace(' ', '%20').strip())
+            else:
+                preparedNames.append(name.strip())
 
-            namesForUrl += name + ","
+        x = 1
 
-        namesForUrl = namesForUrl.strip(',')
+        for name in preparedNames:
+            namesForUrl += name + ','
+            x += 1
 
-        print(namesForUrl)
+            if x % 2 == 0:
+                endpoint = characterNameToIdUrl + namesForUrl.strip(',')
+                self.CallNameApiEndpoint(endpoint)
+                x = 1
+                namesForUrl = ""
 
-        characterInFourl += namesForUrl
+    def CallNameApiEndpoint(self, endpoint):
+        # print(endpoint)
+        characterIdXml = self.GetResponseFromUrl(endpoint)
+        root = ET.fromstring(characterIdXml)
 
-        characterIdXml = self.GetResponseFromUrl(characterInFourl)
-        print(characterIdXml)
-        return
+        characterIds = []
+        for row in root[1][0]:
+            characterIds.append(row.attrib['characterID'])
+
+        for characterId in characterIds:
+            print(self.GetCharacterAllegianceFromEsi(characterId))

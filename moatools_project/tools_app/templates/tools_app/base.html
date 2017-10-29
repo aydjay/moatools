@@ -1,8 +1,76 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static "/moa.css" %}" />
-<header>
-  Home | About
-</header>
 
-{% block content %}
-{% endblock %}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="Mordus Angels - Index" />
+    <title>Mordus Angels - Index</title>
+    <link rel="canonical" href="http://mordusangels.com/index.php" />
+    <link rel="help" href="http://mordusangels.com/index.php?action=help" />
+    <link rel="search" href="http://mordusangels.com/index.php?action=search" />
+    <link rel="contents" href="http://mordusangels.com/index.php" />
+    <link rel="stylesheet" href="/lib/css/donation.css" />
+    <link rel="alternate" type="application/rss+xml" title="Mordus Angels - RSS" href="http://mordusangels.com/index.php?type=rss;action=.xml" />
+</head>
+<body>
+
+
+
+
+    <div id="header">
+        <div class="wrapper">
+            <div id="logo">
+                <a href="http://mordusangels.com/index.php" title=""></a>
+            </div>
+        </div>
+    </div>
+    <div id="toolbar">
+        <div class="wrapper">
+
+        <div id="topnav">
+            <ul>
+                <li id="button_home">
+                    <a class="active firstlevel" href="http://mordusangels.com/index.php">
+                        <span class="last firstlevel">Home</span>
+                    </a>
+                </li>
+
+                <li id="button_home">
+                    <a class="active firstlevel" href="http://mordusangels.com/index.php">
+                        <span class="last firstlevel">Tools</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <div id="main_body">
+        <div class="wrapper">
+            <div id="inferno_tools">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+            <div id="main_content">
+
+
+
+
+    <span class="clear upperframe"><span></span></span>
+
+    <span class="lowerframe"><span></span></span>
+
+    <div id="footer">
+        <ul class="reset">
+
+            <li class="copyright"><strong>Tools</strong> Built By <a href="https://www.evewho.com/pilot/efraya" target="_blank">Efraya</a></li>
+        </ul>
+    </div>
+    <!--Following stylesheet needed -->
+    <link rel="stylesheet" type="text/css" href="//d2v640oxkq1qiu.cloudfront.net/Themes/inferno_20rc4/css/_index.css?rc3" />
+
+</body></html>

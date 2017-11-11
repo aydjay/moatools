@@ -66,9 +66,9 @@ class Tools():
         name = self.typeIdCache[typeId]
         return "{}".format(name)
 
-    def GetNamesFromZkillLinks(self, mail):
+    def GetNamesFromZkillLinks(self, links):
         "If someone mails you a load of zKill links, get the names of the victims for SRP purposes"
-        for link in mail.splitlines():
+        for link in links:
             if "zkillboard.com/kill" not in link:
                 continue
 

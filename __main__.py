@@ -14,8 +14,8 @@ def main(args=None):
 if __name__ == "__main__":
     # bin.names.ShowNames("Efraya\r\nGen Eve")
 
-    with open("/home/d347hm4n/Downloads/super-channel-allowed.txt", "r") as myfile:
+    with open("/home/d347hm4n/Downloads/11 11 CTA.txt", "r") as myfile:
         data = myfile.readlines()
 
         tool = Tools()
-        tool.ShowNames(data)
+        tool.GetNamesFromZkillLinks(data)
